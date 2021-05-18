@@ -9,3 +9,11 @@ This analysis is implemented in R and uses the [rdhs](https://cran.r-project.org
 
 ## How to use this code
 The file bf-model.R is the main entry point for this code. You can run this from R by pointing your current working directory at this repository, then running `source(bf-model.R)`. This will take some time, as the program will first download survey datasets from the DHSProgram, perform some data reorganization, then use [rstan](https://cran.r-project.org/web/packages/rstan/index.html) to fit a statistical model to survey data. Once the model has been fitted, the script will produce figures showing the model fit to data from each survey and CSV files containing parameter estimates. After fitting is completed, you can run `source(gen-figure.R)` to plot regional average estimates for 2005, 2010, and 2015.
+
+## Repository contents
+- bf-model.R Main entry point for this code
+- bf-support.R Helper functions used by bf-model.R
+- bf-model.stan Stan model used to estimate model parameters
+- gen-figure.R Helper script used to visualize trends estimated by the model
+- dhs-iso3166-map.xlsx Data file used to map country codes used by the DHS Program to ISO 3166 country codes
+
