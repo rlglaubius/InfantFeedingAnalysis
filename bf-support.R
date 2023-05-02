@@ -42,9 +42,10 @@ load.rdhs = function() {
   surveys = as.data.table(dhs_surveys(surveyCharacteristicIds = 23))
   surveys = subset(surveys, RegionName == "Sub-Saharan Africa")
   
-  ## Liberia 2019-20 DHS (LB2019DHS) did not include HIV testing, but has
-  ## surveyCharacteristicIds = 23. We need to skip the survey to avoid errors.
-  surveys = surveys[!SurveyId %in% c("BJ2006DHS", "BJ2012DHS", "DR2002DHS", "LB2019DHS", "ML2001DHS", "ZM2002DHS")]
+  ## Liberia 2019-20 DHS (LB2019DHS) and Rwanda 2019-20 DHS (RW2019DHS) did not
+  ## include HIV testing, but has surveyCharacteristicIds = 23. We need to skip
+  ## the survey to avoid errors.
+  surveys = surveys[!SurveyId %in% c("BJ2006DHS", "BJ2012DHS", "DR2002DHS", "LB2019DHS", "RW2019DHS", "ML2001DHS", "ZM2002DHS")]
 
   ird = as.data.table(dhs_datasets(surveyIds = surveys$SurveyId, fileType = "IR", fileFormat = "flat"))
   ard = as.data.table(dhs_datasets(surveyIds = surveys$SurveyId, fileType = "AR", fileFormat = "flat"))
@@ -142,8 +143,7 @@ load.rdhs = function() {
 param.tables = function(stan.fit, data.flat) {
   abstract = data.flat[!duplicated(data.flat[,c('SubregionName', 'CountryName', 'SurveyYear', 'SurveyId')]),]
   
-  username = Sys.info()['user']
-  code.map = read_excel(sprintf('C:/Users/%s/Dropbox (Avenir Health)/My Files/R/dhs-iso3166-map.xlsx', username), sheet='CodeMap')
+  code.map = read_excel("dhs-iso3166-map.xlsx", sheet="CodeMap")
   
   draws = as.data.frame(stan.fit)
   mle.ind = which.max(draws$lp__)
